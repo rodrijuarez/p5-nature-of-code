@@ -1,14 +1,13 @@
 var sketch = (p: p5) => {
   p.preload = () => {};
 
-  let xCoordinates = [],
-    yCoordinates = [],
-    numberOfLines = 20,
-    yEdgeTransformations = [];
+  let numberOfCounts = 20,
+    randomCounts = [];
 
   p.setup = () => {
     p.createCanvas(800, 800);
     p.smooth();
+    p.background(255);
 
     cleanCoordinates();
   };
@@ -18,17 +17,23 @@ var sketch = (p: p5) => {
   };
 
   p.draw = () => {
-    for (let i = 0; i < numberOfLines; i++) {
-      const moveRight = p.round(p.random()) === 1;
-      p.push();
-      p.translate(0, yEdgeTransformations[i]);
-      if (moveRight) {
-        xCoordinates[i]++;
-      } else {
-        yCoordinates[i]++;
-      }
-      p.point(xCoordinates[i], yCoordinates[i]);
-      p.pop();
+    const index = p.round(p.random(randomCounts.length - 1));
+    console.log(index);
+    console.log(randomCounts);
+    randomCounts[index]++;
+
+    p.stroke(p.color(0));
+    p.fill(p.color(175));
+
+    const widthOfElement = p.width / randomCounts.length;
+
+    for (let x = 0; x < randomCounts.length; x++) {
+      p.rect(
+        x * widthOfElement,
+        p.height - randomCounts[x],
+        widthOfElement - 1,
+        randomCounts[x],
+      );
     }
   };
 
@@ -37,11 +42,7 @@ var sketch = (p: p5) => {
   };
 
   const cleanCoordinates = () => {
-    for (let i = 0; i < numberOfLines; i++) {
-      yEdgeTransformations.push(p.random(0, 300));
-      xCoordinates[i] = 0;
-      yCoordinates[i] = 0;
-    }
+    randomCounts = Array(20).fill(0);
   };
 };
 
