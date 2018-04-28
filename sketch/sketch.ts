@@ -3,12 +3,10 @@ var sketch = (p: p5) => {
 
   let xCoordinates = [],
     yCoordinates = [],
-    numberOfLines = 20,
-    yEdgeTransformations = [];
+    numberOfLines = 1;
 
   p.setup = () => {
     p.createCanvas(800, 800);
-    p.smooth();
 
     cleanCoordinates();
   };
@@ -19,13 +17,23 @@ var sketch = (p: p5) => {
 
   p.draw = () => {
     for (let i = 0; i < numberOfLines; i++) {
-      const moveRight = p.round(p.random()) === 1;
+      const choice = p.round(p.random(4));
       p.push();
-      p.translate(0, yEdgeTransformations[i]);
-      if (moveRight) {
-        xCoordinates[i]++;
-      } else {
-        yCoordinates[i]++;
+      p.strokeWeight(2);
+      switch (choice) {
+        case 1:
+          xCoordinates[i]++;
+          break;
+        case 2:
+          yCoordinates[i]++;
+          break;
+        case 3:
+          yCoordinates[i]--;
+          break;
+        case 4:
+        case 0:
+          xCoordinates[i]--;
+          break;
       }
       p.point(xCoordinates[i], yCoordinates[i]);
       p.pop();
@@ -38,9 +46,8 @@ var sketch = (p: p5) => {
 
   const cleanCoordinates = () => {
     for (let i = 0; i < numberOfLines; i++) {
-      yEdgeTransformations.push(p.random(0, 300));
-      xCoordinates[i] = 0;
-      yCoordinates[i] = 0;
+      xCoordinates[i] = p.width / 2;
+      yCoordinates[i] = p.height / 2;
     }
   };
 };
