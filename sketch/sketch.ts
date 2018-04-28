@@ -19,14 +19,24 @@ var sketch = (p: p5) => {
 
   p.draw = () => {
     for (let i = 0; i < numberOfLines; i++) {
-      const moveRight = p.round(p.random()) === 1;
+      const num = p.random(1);
       p.push();
-      p.translate(0, yEdgeTransformations[i]);
-      if (moveRight) {
-        xCoordinates[i]++;
-      } else {
-        yCoordinates[i]++;
+
+      switch (true) {
+        case num <= 0.2:
+          yCoordinates[i]--;
+          break;
+        case num <= 0.4:
+          yCoordinates[i]++;
+          break;
+        case num <= 0.6:
+          xCoordinates[i]--;
+          break;
+        default:
+          xCoordinates[i]++;
+          break;
       }
+
       p.point(xCoordinates[i], yCoordinates[i]);
       p.pop();
     }
@@ -38,9 +48,8 @@ var sketch = (p: p5) => {
 
   const cleanCoordinates = () => {
     for (let i = 0; i < numberOfLines; i++) {
-      yEdgeTransformations.push(p.random(0, 300));
-      xCoordinates[i] = 0;
-      yCoordinates[i] = 0;
+      xCoordinates[i] = p.width / 2;
+      yCoordinates[i] = p.height / 2;
     }
   };
 };
