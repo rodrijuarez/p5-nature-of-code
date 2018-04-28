@@ -22,19 +22,34 @@ var sketch = (p: p5) => {
       const num = p.random(1);
       p.push();
 
-      switch (true) {
-        case num <= 0.2:
-          yCoordinates[i]--;
-          break;
-        case num <= 0.4:
-          yCoordinates[i]++;
-          break;
-        case num <= 0.6:
-          xCoordinates[i]--;
-          break;
-        default:
-          xCoordinates[i]++;
-          break;
+      if (num <= 0.5) {
+        const mouseX = p.mouseX,
+          mouseY = p.mouseY;
+        yCoordinates[i];
+        xCoordinates[i];
+
+        switch (true) {
+          case yCoordinates[i] > mouseY:
+            yCoordinates[i]--;
+            break;
+          case yCoordinates[i] < mouseY:
+            yCoordinates[i]++;
+            break;
+        }
+
+        switch (true) {
+          case xCoordinates[i] > mouseX:
+            xCoordinates[i]--;
+            break;
+          case xCoordinates[i] < mouseX:
+            xCoordinates[i]++;
+            break;
+        }
+      } else {
+        const stepX = p.round(p.random(-1, 1));
+        const stepY = p.round(p.random(-1, 1));
+        xCoordinates[i] += stepX;
+        yCoordinates[i] += stepY;
       }
 
       p.point(xCoordinates[i], yCoordinates[i]);
