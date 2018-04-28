@@ -17,24 +17,13 @@ var sketch = (p: p5) => {
 
   p.draw = () => {
     for (let i = 0; i < numberOfLines; i++) {
-      const choice = p.round(p.random(4));
+      const stepX = p.round(p.random(-1, 1));
+      const stepY = p.round(p.random(-1, 1));
+      xCoordinates[i] += stepX;
+      yCoordinates[i] += stepY;
+
       p.push();
       p.strokeWeight(2);
-      switch (choice) {
-        case 1:
-          xCoordinates[i]++;
-          break;
-        case 2:
-          yCoordinates[i]++;
-          break;
-        case 3:
-          yCoordinates[i]--;
-          break;
-        case 4:
-        case 0:
-          xCoordinates[i]--;
-          break;
-      }
       p.point(xCoordinates[i], yCoordinates[i]);
       p.pop();
     }
