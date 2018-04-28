@@ -1,8 +1,8 @@
 var sketch = (p: p5) => {
   p.preload = () => {};
 
-  let currentX = 0,
-    currentY = 0,
+  let xCoordinates = [],
+    yCoordinates = [],
     numberOfLines = 20,
     yEdgeTransformations = [];
 
@@ -10,9 +10,7 @@ var sketch = (p: p5) => {
     p.createCanvas(800, 800);
     p.smooth();
 
-    for (let i = 0; i < numberOfLines; i++) {
-      yEdgeTransformations.push(p.random(0, 50));
-    }
+    cleanCoordinates();
   };
 
   p.windowResized = () => {
@@ -20,24 +18,30 @@ var sketch = (p: p5) => {
   };
 
   p.draw = () => {
-    const moveRight = p.round(p.random()) === 1;
-
-    if (moveRight) {
-      currentX++;
-    } else {
-      currentY++;
-    }
     for (let i = 0; i < numberOfLines; i++) {
+      const moveRight = p.round(p.random()) === 1;
       p.push();
       p.translate(0, yEdgeTransformations[i]);
-      p.point(currentX, currentY);
+      if (moveRight) {
+        xCoordinates[i]++;
+      } else {
+        yCoordinates[i]++;
+      }
+      p.point(xCoordinates[i], yCoordinates[i]);
       p.pop();
     }
   };
 
   p.mouseClicked = () => {
-    currentX = 0;
-    currentY = 0;
+    cleanCoordinates();
+  };
+
+  const cleanCoordinates = () => {
+    for (let i = 0; i < numberOfLines; i++) {
+      yEdgeTransformations.push(p.random(0, 300));
+      xCoordinates[i] = 0;
+      yCoordinates[i] = 0;
+    }
   };
 };
 
